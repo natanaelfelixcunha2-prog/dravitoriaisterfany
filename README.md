@@ -68,10 +68,31 @@ Todas as fotos e dados estão centralizados em `src/data/expertData.ts`. Para ad
 
 ---
 
-## 🚀 Como Fazer Deploy na Vercel via GitHub
+## 🚀 Como Fazer Deploy na Vercel (Configurações Corrigidas)
 
-1. Suba este repositório para o seu **GitHub**.
-2. Acesse [vercel.com](https://vercel.com) e clique em **"Add New Project"**.
-3. Selecione o repositório do GitHub.
-4. O Vercel detectará automaticamente as configurações (Vite).
-5. Clique em **"Deploy"**. A landing page estará no ar em segundos com certificado SSL gratuito e alta velocidade de carregamento!
+O erro comum de "Build Failed" na Vercel ocorria devido a conflito de dependências pares (`esbuild` / `vite`) durante o `npm install` inicial da Vercel. 
+
+### O que foi corrigido:
+1. Adicionado `.npmrc` com `legacy-peer-deps=true` para garantir que o `npm install` passe sem conflitos na Vercel.
+2. Atualizado `esbuild` para compatibilidade total com o Vite no `package.json`.
+3. Gerado o arquivo oficial `package-lock.json` e removido lockfiles ambíguos.
+4. Simplificado o `vercel.json` com regra de rewrite padrão para SPA.
+
+### Passo a passo para o Deploy:
+
+1. **Faça o commit e envie para o GitHub:**
+   ```bash
+   git add .
+   git commit -m "Fix: dependências e configuração Vercel"
+   git push origin main
+   ```
+2. **Na Vercel:**
+   - Acesse seu projeto na Vercel e clique em **"Redeploy"** (ou crie um novo projeto importando o repositório).
+   - Se estiver criando do zero:
+     - **Framework Preset:** `Vite`
+     - **Root Directory:** `./`
+     - **Build Command:** `npm run build`
+     - **Output Directory:** `dist`
+     - **Install Command:** `npm install`
+   - Clique em **Deploy**.
+3. O build levará menos de 30 segundos e o site estará no ar!
